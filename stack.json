@@ -128,7 +128,7 @@
         "ContainerDefinitions" : [ 
           {
             "Name": "jenkins",
-            "Image": "jmenga/jenkins:ecs",
+            "Image": "simorgh1/jenkins:latest",
             "Memory": 995,
             "PortMappings": [ { "ContainerPort": 8080, "HostPort": 8080 } ],
             "MountPoints": [

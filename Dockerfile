@@ -36,9 +36,7 @@ RUN apt-get update -y && \
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
     apt-get update -y && \
-    apt-get install docker-ce=${DOCKER_ENGINE:-5:19.03.8}~3-0~debian-stretch docker-ce-cli=${DOCKER_ENGINE:-5:19.03.8}~3-0~debian-stretch containerd.io -y && \
-    usermod -aG docker jenkins && \
-    usermod -aG users jenkins
+    apt-get install docker-ce-cli=${DOCKER_ENGINE:-5:19.03.8}~3-0~debian-stretch -y
 
 # Install Docker Compose
 RUN pip install docker-compose==${DOCKER_COMPOSE:-1.25.0} && \
@@ -50,3 +48,6 @@ USER jenkins
 # Add Jenkins plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/plugins.txt
+
+# Change back to root user since the mounted jenkins user has no permission to docker.sock
+USER root
